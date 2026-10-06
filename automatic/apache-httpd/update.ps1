@@ -1,21 +1,25 @@
 ﻿Import-Module Chocolatey-AU
 
-$releases = 'https://www.apachehaus.com/cgi-bin/download.plx'
+$releases = 'https://www.apachelounge.com/download/'
 
-function global:au_BeforeUpdate { Get-RemoteFiles -NoSuffix }
+function global:au_BeforeUpdate { Get-RemoteFiles -Purge -NoSuffix }
 
 function global:au_GetLatest {
-  $versionRegEx = 'httpd\-([\d\.]+).*\-x86\-(vs17).*\.zip'
+  $downloadPage = Invoke-WebRequest -Uri $releases -UseBasicParsing
 
-  $downloadPage = Invoke-WebRequest $releases -UseBasicParsing
-  $matches = [regex]::match($downloadPage.Content, $versionRegEx)
-  $version32 = $matches.Groups[1].Value
-  $url32 = "https://www.apachehaus.com/downloads/$($matches.Groups[0].Value)"
+  # File name casing differs between architectures (Win64-VS18 vs win32-vs18), -match is case-insensitive
+  $re = '/httpd-(?<version>[\d\.]+)-\d+-win(32|64)-vs\d+\.zip$'
+  $links = $downloadPage.Links | Where-Object href -Match $re | ForEach-Object { [uri]::new([uri]$releases, $_.href).AbsoluteUri }
 
-  $versionRegEx = $versionRegEx -replace 'x86', 'x64'
-  $matches = [regex]::match($downloadPage.Content, $versionRegEx)
-  $version64 = [version]$matches.Groups[1].Value
-  $url64 = "https://www.apachehaus.com/downloads/$($matches.Groups[0].Value)"
+  $url32 = $links | Where-Object { $_ -match '-win32-' } | Select-Object -First 1
+  $url64 = $links | Where-Object { $_ -match '-win64-' } | Select-Object -First 1
+
+  if (!$url32 -or !$url64) {
+    throw "Unable to find both 32bit and 64bit downloads on $releases. Please check the update script."
+  }
+
+  $version32 = if ($url32 -match $re) { $Matches.version }
+  $version64 = if ($url64 -match $re) { $Matches.version }
 
   if ($version32 -ne $version64) {
     throw "32bit and 64bit version do not match. Please check the update script."

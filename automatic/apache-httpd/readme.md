@@ -19,6 +19,8 @@ Example: `choco install apache-httpd --params '"/installLocation:C:\HTTPD /port:
 
 ## Notes
 
-- This package will install the latest Apache binaries provided at Apache Haus (http://www.apachehaus.com/) with OpenSSL 1.1.1p, brotli 1.0.9, nghttp 1.47.0, Zlib 1.2.12, PCRE2 10.40.
+- This package installs the Apache HTTP Server Windows binaries built by [Apache Lounge](https://www.apachelounge.com/download/) from the official ASF sources.
+- The Apache Lounge binaries do not run on Windows XP, Windows 7 or Server 2003.
+- Users upgrading from a version based on the Apache Haus binaries should review their `httpd.conf`, as the bundled modules and libraries differ.
 - The complete path of the package will be `$Env:AppData\Apache*`
 - Apache will be installed as a service under the default name 'Apache' (can be disabled with the `/noService` install parameter)

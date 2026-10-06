@@ -75,10 +75,12 @@ function Install-Apache {
         [Parameter(Position = 0, Mandatory)][ValidateNotNullOrEmpty()][PSCustomObject] $arguments
     )
 
+    # The archive also has loose readme files at its root which should not end up in the destination
     Get-ChocolateyUnzip `
         -file $arguments.file `
         -file64 $arguments.file64 `
-        -destination $arguments.destination
+        -destination $arguments.destination `
+        -specificFolder 'Apache24'
 
     Set-ApacheConfig $arguments
 

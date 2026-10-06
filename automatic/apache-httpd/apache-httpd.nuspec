@@ -7,12 +7,13 @@
     <title>Apache HTTP Server Project</title>
      <authors>Apache Software Foundation</authors>
     <owners>chocolatey-community</owners>
-    <licenseUrl>http://www.apache.org/licenses</licenseUrl>
-    <projectUrl>http://httpd.apache.org</projectUrl>
-    <docsUrl>http://httpd.apache.org/docs/2.4</docsUrl>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://httpd.apache.org</projectUrl>
+    <projectSourceUrl>https://github.com/apache/httpd</projectSourceUrl>
+    <docsUrl>https://httpd.apache.org/docs/2.4</docsUrl>
     <iconUrl>https://cdn.jsdelivr.net/gh/chocolatey-community/chocolatey-packages@2bdf6f7e33ec1a8126829fbbc87b83e4473b3634/icons/apache-httpd.png</iconUrl>
-    <bugTrackerUrl>http://httpd.apache.org/bug_report.html</bugTrackerUrl>
-    <releaseNotes>http://httpd.apache.org/docs/2.4/new_features_2_4.html</releaseNotes>
+    <bugTrackerUrl>https://httpd.apache.org/bug_report.html</bugTrackerUrl>
+    <releaseNotes>https://downloads.apache.org/httpd/CHANGES_2.4</releaseNotes>
     <packageSourceUrl>https://github.com/chocolatey-community/chocolatey-packages/tree/master/automatic/apache-httpd</packageSourceUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server.</summary>
@@ -35,13 +36,15 @@ Example: `choco install apache-httpd --params '"/installLocation:C:\HTTPD /port:
 
 ## Notes
 
-- This package will install the latest Apache binaries provided at Apache Haus (http://www.apachehaus.com/) with OpenSSL 1.1.1p, brotli 1.0.9, nghttp 1.47.0, Zlib 1.2.12, PCRE2 10.40.
+- This package installs the Apache HTTP Server Windows binaries built by [Apache Lounge](https://www.apachelounge.com/download/) from the official ASF sources.
+- The Apache Lounge binaries do not run on Windows XP, Windows 7 or Server 2003.
+- Users upgrading from a version based on the Apache Haus binaries should review their `httpd.conf`, as the bundled modules and libraries differ.
 - The complete path of the package will be `$Env:AppData\Apache*`
 - Apache will be installed as a service under the default name 'Apache' (can be disabled with the `/noService` install parameter)
 ]]></description>
-    <tags>apache httpd webserver admin</tags>
+    <tags>apache-httpd server foss cross-platform apache httpd webserver admin</tags>
     <dependencies>
-      <dependency id="vcredist140" version="14.32.31332" />
+      <dependency id="vcredist140" version="14.51.36247" />
    </dependencies>
   </metadata>
   <files>
